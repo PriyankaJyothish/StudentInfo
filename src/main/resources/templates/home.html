@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
     <body>
-        <form action="#" th:action="@{student/*{id}}" th:object="${studentForm}" method="get">
+        <form action="#" th:action="@{*{id}}" th:object="${studentForm}" method="get">
             <table>
                 <tr>
                     <td>Student ID:</td>

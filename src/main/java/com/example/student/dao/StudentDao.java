@@ -56,7 +56,9 @@ public List<Student> getJSONFromUrl() {
     } catch (ClientProtocolException e) {
         e.printStackTrace();
     } catch (IOException e) {
-        e.printStackTrace();
+        e.printStackTrace();}
+        catch (NullPointerException e) {
+           System.out.println("internal server error");
     }
 
     try {
@@ -104,16 +106,15 @@ public List<Student> stringtolist(String sb)
 
 public Student fineOne(String id)
 {
-	Student obj= new Student("No records present","","","");
-	for(Student student : students)
+		for(Student student : students)
 	{
 		if (student.getSid().equalsIgnoreCase(id))
-		{
-			obj= student;
+		{System.out.println(student.toString());
+			return student;
 			}
 		
 	}
 	 
-	return obj;
+	return null;
 }
 }
