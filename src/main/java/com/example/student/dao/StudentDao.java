@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.apache.http.HttpEntity;
@@ -25,6 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.server.WebServerException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -34,12 +38,13 @@ public class StudentDao {
 static InputStream is = null;
 static JSONObject jObj = null;
 static String json = "";
+static String statuscode=null;
 private static List<Student> students= new ArrayList<>();
 // constructor
 
 @ExceptionHandler
 @Autowired
-public List<Student> getJSONFromUrl() {
+public List<Student> getJSONFromUrl() throws NullPointerException {
 	List<Student> students= new ArrayList<>();
     // Making HTTP request
     try {
@@ -50,6 +55,7 @@ public List<Student> getJSONFromUrl() {
         HttpResponse httpResponse = httpClient.execute(httpGet);
         HttpEntity httpEntity = httpResponse.getEntity();
         is = httpEntity.getContent();
+		
 
     } catch (UnsupportedEncodingException e) {
         e.printStackTrace();
@@ -58,7 +64,7 @@ public List<Student> getJSONFromUrl() {
     } catch (IOException e) {
         e.printStackTrace();}
         catch (NullPointerException e) {
-           System.out.println("internal server error");
+           logger.info("internal server error");
     }
 
     try {
@@ -69,14 +75,15 @@ public List<Student> getJSONFromUrl() {
         while ((line = reader.readLine()) != null) {
             sb.append(line + "\n");
             Logger.getLogger(line);
-            System.out.println(sb);
+            logger.info(sb);
         }
         is.close();
         json = sb.toString();
        Logger.getLogger(json);
     } catch (Exception e) {
-    	System.out.println("Buffer Error");
+    	logger.info("Buffer Error");
     }
+    
     
 
     students=stringtolist(json);
@@ -94,7 +101,7 @@ public List<Student> stringtolist(String sb)
 		for (int i = 0; i < jsonArray.size(); i++) {
 		    JsonElement str = jsonArray.get(i);
 		    Student obj = gson.fromJson(str, Student.class);
-		    System.out.println(obj);
+		    logger.info(obj);
 		    students.add(obj);
 	}
 		return students;
@@ -104,17 +111,21 @@ public List<Student> stringtolist(String sb)
 
 }
 
-public Student fineOne(String id)
+public ResponseEntity<Student> fineOne(String id)
 {
 		for(Student student : students)
 	{
 		if (student.getSid().equalsIgnoreCase(id))
-		{System.out.println(student.toString());
-			return student;
+		{logger.info(student.toString());
+			return  ResponseEntity.of(Optional.of(student));
 			}
+		if(student.equals(null))
+		{
+			return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 		
 	}
 	 
-	return null;
+	return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 }
 }

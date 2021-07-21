@@ -1,23 +1,26 @@
 package com.example.student.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
+
 
 public class Student {
 	final Logger logger = LogManager.getLogger(Student.class);
 
 	
+	/**
+	 * 
+	 */
 	private String sid;
 	private String sname;
 	private String sdob;
 	private String sspec;
 	
-	
-	
+	 
 	public String getSid() {
 		return sid;
 	}
