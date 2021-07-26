@@ -1,18 +1,32 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-    <body>
-        <form action="#" th:action="@{*{id}}" th:object="${studentForm}" method="get">
-            <table>
-                <tr>
-                    <td>Student ID:</td>
-                    <td><input type="text" th:field="*{id}" /></td>
-                    <td th:if="${#fields.hasErrors('id')}" th:errors="*{id}">id Error</td>
-                </tr>
-               
-                <tr>
-                    <td><button type="submit">Search</button></td>
-                </tr>
-            </table>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Notes</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="js/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Notes</h1>
+
+        <form class="form-group" action="/student" th:action="@{/student}" method="get">
+            
+            <div class="form-group" th:classappend="${#fields.hasErrors('st.sid')} ? 'has-error'">
+                <label for="sid">ID Number</label>
+                <input type="text" class="form-control" id="sid" th:field="${st.sid}" />
+                <span th:if="${#fields.hasErrors('st.sid')}" th:errors="*{st.sid}" id="errorTitle" class="help-block"></span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="#" th:href="@{/}" class="btn btn-danger" role="button">Cancel</a>
         </form>
-    </body>
+
+    </div>
+
+</body>
 </html>

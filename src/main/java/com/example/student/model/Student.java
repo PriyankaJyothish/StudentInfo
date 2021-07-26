@@ -15,7 +15,11 @@ public class Student {
 	/**
 	 * 
 	 */
+	@Digits(integer=6, fraction=0)
 	private String sid;
+	public Student() {
+		super();
+	}
 	private String sname;
 	private String sdob;
 	private String sspec;
