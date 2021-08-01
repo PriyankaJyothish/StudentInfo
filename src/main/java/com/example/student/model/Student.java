@@ -15,7 +15,7 @@ public class Student {
 	/**
 	 * 
 	 */
-	@Digits(integer=6, fraction=0)
+	@Size(min=6,max=6)
 	private String sid;
 	public Student() {
 		super();
