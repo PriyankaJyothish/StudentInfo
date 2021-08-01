@@ -42,7 +42,7 @@ public class StudentController  {
 	  model.addAttribute("st",new Student()); return "home.html"; }
 	 	 
 	  @RequestMapping(value={"/student","/student/{sid}"}, method = RequestMethod.GET) 
-	public ResponseEntity<ResponseEntity<Student>> getStudent(@Valid @PathVariable("sid") @RequestParam @Size(max=6 ,min=6,message="6 digits required")String sid ) 
+	public ResponseEntity<ResponseEntity<Student>> getStudent( @RequestParam @Size(max=6 ,min=6,message="6 digits required")String sid ) 
 	  {
 		
 		  
